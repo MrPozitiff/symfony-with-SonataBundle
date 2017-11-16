@@ -33,3 +33,33 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+
+    admin.category:
+        class: AppBundle\Admin\CategoryAdmin
+        arguments: [~, AppBundle\Entity\Category, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Category }
+        public: true
+
+    admin.product:
+        class: AppBundle\Admin\ProductAdmin
+        arguments: [~, AppBundle\Entity\Product, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Product }
+        public: true
+
+    admin.image:
+            class: AppBundle\Admin\ImageAdmin
+            tags:
+                - { name: sonata.admin, manager_type: orm, label: "Image" }
+            arguments:
+                - ~
+                - AppBundle\Entity\Image
+                - 'SonataAdminBundle:CRUD'
+            calls:
+                - [ setTranslationDomain, [AppBundle]]
+            public: true
+
+    redirect.after.success.register:
+        class: AppBundle\EventListener\RedirectAfterSuccessRegister
+        autowire: true

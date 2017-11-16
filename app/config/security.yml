@@ -19,6 +19,19 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        admin:
+            pattern:  /admin(.*)
+            context:  user
+            form_login:
+              provider:  fos_userbundle
+              login_path:  /admin/login
+              use_forward:  false
+              check_path:  /admin/login_check
+              failure_path:  null
+            logout:
+              path:  /admin/logout
+            anonymous:  true
+
         main:
             pattern: ^/
             form_login:
@@ -37,4 +50,9 @@ security:
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: [ROLE_ADMIN, ROLE_SONATA_ADMIN] }
+        - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
