@@ -1,1 +1,121 @@
 {% extends 'base.html.twig' %}
+
+{% block title %}{{ data.title }}{% endblock %}
+
+
+{% block header %}
+    <div id="heading-breadcrumbs">
+        <div class="container">
+            <div class="row">
+
+                {% if app.request.get('_route') == 'category_view' %}
+                <div class="col-md-7">
+                    <h1>{{ data.current_cat.name }}</h1>
+                </div>
+                <div class="col-md-5">
+                    <ul class="breadcrumb">
+                        <li><a href="{{ path('homepage') }}">Home</a>
+                        </li>
+                        <li>{{ data.current_cat.name }}</li>
+                    </ul>
+                </div>
+
+                {% else %}
+
+                <div class="col-md-7">
+
+                    <h1>Test homepage for all products</h1>
+                </div>
+                <div class="col-md-5">
+                    <ul class="breadcrumb">
+                        <li><a href="{{ path('homepage') }}">Home</a>
+                        </li>
+                        <li>All products</li>
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="col-sm-9">
+        <p class="text-muted lead">Short description about this shop</p>
+        <div class="row products">
+
+            {% for product in data.products %}
+
+            <div class="col-md-4 col-sm-6">
+                <div class="product">
+                    <div class="image">
+                        <a href="{{ path('product_view', {'product_id': product.id}) }}">
+                            <img src="{{ asset('uploads/media/img/' ) ~ product.mainImage.filename }}" alt="" class="img-responsive image1">
+                        </a>
+                    </div>
+                    <!-- /.image -->
+                    <div class="text">
+                        <h3><a href="{{ path('product_view', {'product_id': product.id}) }}">{{ product.description }}</a></h3>
+                        <p class="price">${{ product.price }}</p>
+                        <p class="buttons">
+                            <a href="{{ path('product_view', {'product_id': product.id}) }}" class="btn btn-default">View detail</a>
+                            <a href="{{ path('product_view', {'product_id': product.id}) }}" class="btn btn-template-main"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                        </p>
+                    </div>
+                    <!-- /.text -->
+                </div>
+                <!-- /.product -->
+            </div>
+            {% endfor %}
+
+            <!-- /.col-md-4 -->
+        </div>
+        <!-- /.products -->
+        <div class="pages">
+            {% if data.pages_count > 1 %}
+
+            <ul class="pagination">
+
+                {% if data.title == 'Homepage' %}
+                    <li {% if data.current_page > 1 %}><a href="{{ path('home_pagination', {'page' : data.current_page - 1 }) }}">{% else %}class="active"><a href="#">{% endif %}&laquo;</a>
+                    </li>
+
+                    {% for i in 1..(data.pages_count) %}
+
+                        <li {% if data.current_page == i %}class="active"{% endif %}><a href="{{ path('home_pagination', {'page' : i }) }}">{{ i }}</a>
+                        </li>
+
+                    {% endfor %}
+
+                    <li {% if data.current_page < data.pages_count %}><a href="{{ path('home_pagination', {'page' : (data.current_page + 1)}) }}">{% else %}class="active"><a href="#">{% endif %}&raquo;</a>
+                    </li>
+                {% else %}
+                    <li {% if data.current_page > 1 %}><a href="{{ path('category_view', {'category_url': data.current_cat.urlPath,'page' : data.current_page - 1 }) }}">{% else %}class="active"><a href="#">{% endif %}&laquo;</a>
+                    </li>
+
+                    {% for i in 1..(data.pages_count) %}
+
+                        <li {% if data.current_page == i %}class="active"{% endif %}><a href="{{ path('category_view', {'category_url': data.current_cat.urlPath,'page' : i }) }}">{{ i }}</a>
+                        </li>
+
+                    {% endfor %}
+
+                    <li {% if data.current_page < data.pages_count %}><a href="{{ path('category_view', {'category_url': data.current_cat.urlPath,'page' : (data.current_page + 1)}) }}">{% else %}class="active"><a href="#">{% endif %}&raquo;</a>
+                    </li>
+                {% endif %}
+
+            <!-- TODO: Endless pagination -->
+
+            </ul>
+            {% else %}
+
+            <ul class="pagination">
+                <li class="active"><a href="#">&laquo;</a>
+                </li>
+                <li class="active"><a href="#">1</a>
+                <li class="active"><a href="#">&raquo;</a>
+                </li>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

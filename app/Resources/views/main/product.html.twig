@@ -1,1 +1,55 @@
 {% extends 'base.html.twig' %}
+
+{% block header %}
+    <div id="heading-breadcrumbs">
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-7">
+                        <h1>{{ data.product.name }}</h1>
+                    </div>
+                    <div class="col-md-5">
+                        <ul class="breadcrumb">
+                            <li><a href="{{ path('homepage') }}">Home</a>
+                            </li>
+                            <li><a href="{{ path('category_view', {'category_url' : data.product.category.urlPath }) }}">{{ data.product.category.name }}</a></li>
+                            <li>{{ data.product.name }}</li>
+                        </ul>
+                    </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="col-md-9">
+        <p class="goToDescription"><a href="#details" class="scroll-to text-uppercase">Scroll to product description</a>
+        </p>
+        <div class="row" id="productMain">
+            <div class="col-sm-6">
+                <div id="mainImage">
+                    <img src="{{ asset('uploads/media/img/') ~ data.product.mainImage.filename }}" alt="" class="img-responsive">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="box">
+                    <form>
+                        <p class="price">Price: </p>
+                        <p class="price">${{ data.product.price }}</p>
+                        <p class="text-center">
+                            <button type="submit" class="btn btn-template-main" disabled><i class="fa fa-shopping-cart" ></i> Add to cart</button>
+                            <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Add to wishlist" disabled><i class="fa fa-heart-o"></i>
+                            </button>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="box" id="details">
+            <p>
+            <h4>Product details</h4>
+            <p>{{ data.product.description }}</p>
+        </div>
+
+{% endblock %}

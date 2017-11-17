@@ -1,0 +1,20 @@
+<div class="col-sm-3">
+    <div class="panel panel-default sidebar-menu">
+
+        <div class="panel-heading">
+            <h3 class="panel-title">Categories</h3>
+        </div>
+
+        <div class="panel-body">
+            <ul class="nav nav-pills nav-stacked category-menu">
+                {% for category in data.categories %}
+                <li {% if app.request.get('_route_params')['category_url'] is defined and app.request.get('_route_params')['category_url'] == category.urlPath %}class="active"{% endif %}>
+                    <a href="{{ path('category_view', {'category_url' : category.urlPath}) }}">{{ category.name }} <span class="badge pull-right">{{ category.ProductCount }}</span></a>
+                </li>
+                {% endfor %}
+
+            </ul>
+
+        </div>
+    </div>
+</div>

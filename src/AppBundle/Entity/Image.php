@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class Image
 {
-    const UPLOADED_IMAGES_FOLDER = WEB_PATH_DIR.'/uploads/media/img';
+    const UPLOADED_IMAGES_FOLDER = WEB_PATH_DIR . '/uploads/media/img';
 
     /**
      * @var int
@@ -85,6 +85,8 @@ class Image
         if (null === $this->getFile()) {
             return;
         }
+
+        // TODO: Rename files to md5_hash and make mime-type validation
 
         // move takes the target directory and target filename as params
         $this->getFile()->move(
@@ -182,11 +184,11 @@ class Image
     /**
      * Set product
      *
-     * @param \AppBundle\Entity\Product $product
+     * @param Product $product
      *
      * @return Image
      */
-    public function setProduct(\AppBundle\Entity\Product $product = null)
+    public function setProduct(Product $product = null)
     {
         $this->product = $product;
 

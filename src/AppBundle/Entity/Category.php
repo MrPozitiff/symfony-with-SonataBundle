@@ -59,6 +59,11 @@ class Category
         $this->products = new ArrayCollection();
     }
 
+    public function getProductCount()
+    {
+        return count($this->getProducts());
+    }
+
     /**
      * Get id
      *
